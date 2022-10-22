@@ -15,11 +15,11 @@ async function run() {
 
     const body =
         (context.eventName === "issue_comment"
-        // For comments on pull requests
-            ? context.payload.comment.body
-            // For the initial pull request description
-            : context.payload.pull_request.body) || '';
-    core.setOutput('comment_body', body);
+            ? // For comments on pull requests
+              context.payload.comment.body
+            : // For the initial pull request description
+              context.payload.pull_request.body) || "";
+    core.setOutput("comment_body", body);
 
     if (
         context.eventName === "issue_comment" &&
@@ -32,8 +32,7 @@ async function run() {
 
     const { owner, repo } = context.repo;
 
-
-    const prefixOnly = core.getInput("prefix_only") === 'true';
+    const prefixOnly = core.getInput("prefix_only") === "true";
     if ((prefixOnly && !body.startsWith(trigger)) || !body.includes(trigger)) {
         core.setOutput("triggered", "false");
         return;
